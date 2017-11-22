@@ -7,7 +7,7 @@ import (
 	"testing"
 	"vmango/cfg"
 	"vmango/dal"
-	"vmango/models"
+	"vmango/domain"
 	"vmango/testool"
 
 	"github.com/stretchr/testify/suite"
@@ -54,7 +54,7 @@ func (suite *ProviderLibvirtSuite) SetupTest() {
 }
 
 func (suite *ProviderLibvirtSuite) TestStatusOk() {
-	status := &models.StatusInfo{}
+	status := &domain.StatusInfo{}
 	err := suite.Provider.Status(status)
 	suite.Require().NoError(err)
 

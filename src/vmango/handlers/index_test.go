@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"testing"
 	"vmango/dal"
-	"vmango/models"
+	"vmango/domain"
 	"vmango/testool"
 
 	"github.com/stretchr/testify/suite"
@@ -25,7 +25,7 @@ func (suite *IndexHandlerTestSuite) SetupTest() {
 	firstProv := &dal.StubProvider{
 		TName: "test1",
 	}
-	firstProv.StatusResponse.Status = &models.StatusInfo{
+	firstProv.StatusResponse.Status = &domain.StatusInfo{
 		Name:         "test1",
 		Type:         "stub",
 		Description:  "test1 description",
@@ -40,7 +40,7 @@ func (suite *IndexHandlerTestSuite) SetupTest() {
 	secondProv := &dal.StubProvider{
 		TName: "test2",
 	}
-	secondProv.StatusResponse.Status = &models.StatusInfo{
+	secondProv.StatusResponse.Status = &domain.StatusInfo{
 		Name:         "test2",
 		Type:         "stub2",
 		Description:  "test2 description",

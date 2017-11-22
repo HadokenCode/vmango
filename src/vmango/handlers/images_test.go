@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 	"vmango/dal"
-	"vmango/models"
+	"vmango/domain"
 	"vmango/testool"
 
 	"github.com/stretchr/testify/suite"
@@ -45,38 +45,38 @@ func (suite *ImageHandlersTestSuite) TestOk() {
 	suite.Authenticate()
 	suite.Context.Providers.Add(&dal.StubProvider{
 		TName: "test1",
-		TImages: &dal.StubImagerep{Data: []*models.Image{
+		TImages: &dal.StubImagerep{Data: []*domain.Image{
 			{
 				Id:   "test_image.img",
 				OS:   "TestOS",
-				Arch: models.ARCH_X86,
-				Type: models.IMAGE_FMT_RAW,
+				Arch: domain.ARCH_X86,
+				Type: domain.IMAGE_FMT_RAW,
 				Date: time.Unix(1484891107, 0),
 			},
 			{
 				Id:   "test_image2.img",
 				OS:   "OsTest-4.0",
-				Arch: models.ARCH_X86_64,
-				Type: models.IMAGE_FMT_QCOW2,
+				Arch: domain.ARCH_X86_64,
+				Type: domain.IMAGE_FMT_QCOW2,
 				Date: time.Unix(1484831107, 0),
 			},
 		}},
 	})
 	suite.Context.Providers.Add(&dal.StubProvider{
 		TName: "test2",
-		TImages: &dal.StubImagerep{Data: []*models.Image{
+		TImages: &dal.StubImagerep{Data: []*domain.Image{
 			{
 				Id:   "test_image.img",
 				OS:   "TestOS",
-				Arch: models.ARCH_X86,
-				Type: models.IMAGE_FMT_RAW,
+				Arch: domain.ARCH_X86,
+				Type: domain.IMAGE_FMT_RAW,
 				Date: time.Unix(1484891107, 0),
 			},
 			{
 				Id:   "test_image2.img",
 				OS:   "OsTest-4.0",
-				Arch: models.ARCH_X86_64,
-				Type: models.IMAGE_FMT_QCOW2,
+				Arch: domain.ARCH_X86_64,
+				Type: domain.IMAGE_FMT_QCOW2,
 				Date: time.Unix(1484831107, 0),
 			},
 		}},
@@ -90,20 +90,20 @@ func (suite *ImageHandlersTestSuite) TestAPIOk() {
 	suite.APIAuthenticate("admin", "secret")
 	suite.Context.Providers.Add(&dal.StubProvider{
 		TName: "test2",
-		TImages: &dal.StubImagerep{Data: []*models.Image{
+		TImages: &dal.StubImagerep{Data: []*domain.Image{
 			{
 				Id:       "test_image.img",
 				OS:       "TestOS",
-				Arch:     models.ARCH_X86,
-				Type:     models.IMAGE_FMT_RAW,
+				Arch:     domain.ARCH_X86,
+				Type:     domain.IMAGE_FMT_RAW,
 				Date:     time.Unix(1484891107, 0).UTC(),
 				PoolName: "hello",
 			},
 			{
 				Id:       "test_image2.img",
 				OS:       "OsTest-4.0",
-				Arch:     models.ARCH_X86_64,
-				Type:     models.IMAGE_FMT_QCOW2,
+				Arch:     domain.ARCH_X86_64,
+				Type:     domain.IMAGE_FMT_QCOW2,
 				Date:     time.Unix(1484831107, 0).UTC(),
 				PoolName: "hello2",
 			},

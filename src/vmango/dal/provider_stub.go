@@ -1,7 +1,7 @@
 package dal
 
 import (
-	"vmango/models"
+	"vmango/domain"
 )
 
 type StubProvider struct {
@@ -11,7 +11,7 @@ type StubProvider struct {
 
 	StatusResponse struct {
 		Err    error
-		Status *models.StatusInfo
+		Status *domain.StatusInfo
 	}
 }
 
@@ -25,7 +25,7 @@ func (p *StubProvider) Images() Imagerep {
 	return p.TImages
 }
 
-func (p *StubProvider) Status(status *models.StatusInfo) error {
+func (p *StubProvider) Status(status *domain.StatusInfo) error {
 	if p.StatusResponse.Err != nil {
 		return p.StatusResponse.Err
 	}

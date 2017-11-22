@@ -8,7 +8,7 @@ import (
 	"testing"
 	"vmango/cfg"
 	"vmango/dal"
-	"vmango/models"
+	"vmango/domain"
 	"vmango/testool"
 
 	"github.com/stretchr/testify/suite"
@@ -30,8 +30,8 @@ func (suite *MachineCreateHandlerTestSuite) SetupTest() {
 		TName:     "test1",
 		TMachines: suite.Machines,
 		TImages: &dal.StubImagerep{
-			Data: []*models.Image{
-				{OS: "TestOS-1.0", Arch: models.ARCH_X86_64, Size: 10 * 1024 * 1024, Type: models.IMAGE_FMT_QCOW2, Id: "TestOS-1.0_amd64.img", PoolName: "test"},
+			Data: []*domain.Image{
+				{OS: "TestOS-1.0", Arch: domain.ARCH_X86_64, Size: 10 * 1024 * 1024, Type: domain.IMAGE_FMT_QCOW2, Id: "TestOS-1.0_amd64.img", PoolName: "test"},
 			},
 		},
 	})
@@ -39,8 +39,8 @@ func (suite *MachineCreateHandlerTestSuite) SetupTest() {
 		TName:     "test2",
 		TMachines: suite.Machines,
 		TImages: &dal.StubImagerep{
-			Data: []*models.Image{
-				{OS: "TestOS-1.0", Arch: models.ARCH_X86_64, Size: 10 * 1024 * 1024, Type: models.IMAGE_FMT_QCOW2, Id: "TestOS-1.0_amd64.img", PoolName: "test"},
+			Data: []*domain.Image{
+				{OS: "TestOS-1.0", Arch: domain.ARCH_X86_64, Size: 10 * 1024 * 1024, Type: domain.IMAGE_FMT_QCOW2, Id: "TestOS-1.0_amd64.img", PoolName: "test"},
 			},
 		},
 	})

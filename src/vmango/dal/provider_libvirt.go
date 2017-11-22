@@ -5,7 +5,7 @@ import (
 	"fmt"
 	text_template "text/template"
 	"vmango/cfg"
-	"vmango/models"
+	"vmango/domain"
 
 	"github.com/libvirt/libvirt-go"
 )
@@ -64,7 +64,7 @@ func (p *LibvirtProvider) Machines() Machinerep {
 	return p.machines
 }
 
-func (p *LibvirtProvider) Status(status *models.StatusInfo) error {
+func (p *LibvirtProvider) Status(status *domain.StatusInfo) error {
 	// Basic info
 	status.Name = p.Name()
 	status.Type = LIBVIRT_PROVIDER_TYPE
@@ -118,7 +118,7 @@ func (p *LibvirtProvider) Status(status *models.StatusInfo) error {
 	status.Memory.Usage = memUsedPercent
 
 	// Machine count
-	machines := models.VirtualMachineList{}
+	machines := domain.VirtualMachineList{}
 	if err := p.Machines().List(&machines); err != nil {
 		return fmt.Errorf("failed to count machines: %s", err)
 	}

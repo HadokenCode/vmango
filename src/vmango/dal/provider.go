@@ -1,14 +1,14 @@
 package dal
 
 import (
-	"vmango/models"
+	"vmango/domain"
 )
 
 type Provider interface {
 	Name() string
 	Machines() Machinerep
 	Images() Imagerep
-	Status(*models.StatusInfo) error
+	Status(*domain.StatusInfo) error
 }
 
 type Providers map[string]Provider

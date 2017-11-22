@@ -3,14 +3,14 @@ package handlers
 import (
 	"fmt"
 	"net/http"
-	"vmango/models"
+	"vmango/domain"
 	"vmango/web"
 )
 
 func Index(ctx *web.Context, w http.ResponseWriter, req *http.Request) error {
-	statuses := models.StatusInfoList{}
+	statuses := domain.StatusInfoList{}
 	for _, provider := range ctx.Providers {
-		status := &models.StatusInfo{}
+		status := &domain.StatusInfo{}
 		if err := provider.Status(status); err != nil {
 			return fmt.Errorf("failed to query provider %s for status: %s", provider.Name(), err)
 		}

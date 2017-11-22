@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 	"vmango/dal"
-	"vmango/models"
+	"vmango/domain"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
@@ -39,7 +39,7 @@ type Context struct {
 	Logger       *logrus.Logger
 	SessionStore sessions.Store
 	StaticCache  time.Duration
-	AuthUser     *models.User
+	AuthUser     *domain.User
 
 	Plans     dal.Planrep
 	Providers dal.Providers

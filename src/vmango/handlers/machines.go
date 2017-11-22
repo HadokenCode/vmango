@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"vmango/models"
+	"vmango/domain"
 	"vmango/web"
 
 	"github.com/gorilla/mux"
@@ -17,7 +17,7 @@ func MachineDelete(ctx *web.Context, w http.ResponseWriter, req *http.Request) e
 	if provider == nil {
 		return web.NotFound(fmt.Sprintf("provider '%s' not found", urlvars["provider"]))
 	}
-	machine := &models.VirtualMachine{
+	machine := &domain.VirtualMachine{
 		Id: urlvars["id"],
 	}
 	if exists, err := provider.Machines().Get(machine); err != nil {
@@ -51,7 +51,7 @@ func MachineStateChange(ctx *web.Context, w http.ResponseWriter, req *http.Reque
 	if provider == nil {
 		return web.NotFound(fmt.Sprintf("provider '%s' not found", urlvars["provider"]))
 	}
-	machine := &models.VirtualMachine{
+	machine := &domain.VirtualMachine{
 		Id: urlvars["id"],
 	}
 
@@ -96,9 +96,9 @@ func MachineStateChange(ctx *web.Context, w http.ResponseWriter, req *http.Reque
 }
 
 func MachineList(ctx *web.Context, w http.ResponseWriter, req *http.Request) error {
-	allMachines := map[string]models.VirtualMachineList{}
+	allMachines := map[string]domain.VirtualMachineList{}
 	for _, provider := range ctx.Providers {
-		machines := models.VirtualMachineList{}
+		machines := domain.VirtualMachineList{}
 		if err := provider.Machines().List(&machines); err != nil {
 			return fmt.Errorf("failed to query provider %s: %s", provider, err)
 		}
@@ -117,7 +117,7 @@ func MachineDetail(ctx *web.Context, w http.ResponseWriter, req *http.Request) e
 	if provider == nil {
 		return web.NotFound(fmt.Sprintf("provider '%s' not found", urlvars["provider"]))
 	}
-	machine := &models.VirtualMachine{
+	machine := &domain.VirtualMachine{
 		Id: urlvars["id"],
 	}
 	if exists, err := provider.Machines().Get(machine); err != nil {
@@ -181,22 +181,22 @@ func MachineAddForm(ctx *web.Context, w http.ResponseWriter, req *http.Request) 
 			return web.BadRequest(fmt.Sprintf(`provider "%s" not found`, form.Provider))
 		}
 
-		plan := &models.Plan{Name: form.Plan}
+		plan := &domain.Plan{Name: form.Plan}
 		if exists, err := ctx.Plans.Get(plan); err != nil {
 			return err
 		} else if !exists {
 			return web.BadRequest(fmt.Sprintf(`plan "%s" not found`, form.Plan))
 		}
 
-		image := &models.Image{Id: form.Image}
+		image := &domain.Image{Id: form.Image}
 		if exists, err := provider.Images().Get(image); err != nil {
 			return err
 		} else if !exists {
 			return web.BadRequest(fmt.Sprintf(`image "%s" not found on provider "%s"`, image.Id, provider))
 		}
-		sshkeys := []*models.SSHKey{}
+		sshkeys := []*domain.SSHKey{}
 		for _, keyName := range form.SSHKey {
-			key := models.SSHKey{Name: keyName}
+			key := domain.SSHKey{Name: keyName}
 			if exists, err := ctx.SSHKeys.Get(&key); err != nil {
 				return fmt.Errorf("failed to fetch ssh key %s: %s", keyName, err)
 			} else if !exists {
@@ -204,7 +204,7 @@ func MachineAddForm(ctx *web.Context, w http.ResponseWriter, req *http.Request) 
 			}
 			sshkeys = append(sshkeys, &key)
 		}
-		vm := &models.VirtualMachine{
+		vm := &domain.VirtualMachine{
 			Name:     form.Name,
 			SSHKeys:  sshkeys,
 			Userdata: form.Userdata,
@@ -221,19 +221,19 @@ func MachineAddForm(ctx *web.Context, w http.ResponseWriter, req *http.Request) 
 			"Message": fmt.Sprintf("Machine %s (%s) created", vm.Name, vm.Id),
 		}, "machine-detail", "id", vm.Id, "provider", provider.Name())
 	} else {
-		plans := []*models.Plan{}
+		plans := []*domain.Plan{}
 		if err := ctx.Plans.List(&plans); err != nil {
 			return fmt.Errorf("failed to fetch plan list: %s", err)
 		}
-		images := map[string]*models.ImageList{}
+		images := map[string]*domain.ImageList{}
 		for _, provider := range ctx.Providers {
-			hvImages := &models.ImageList{}
+			hvImages := &domain.ImageList{}
 			if err := provider.Images().List(hvImages); err != nil {
 				return fmt.Errorf("failed to fetch images list from provider %s: %s", provider.Name(), err)
 			}
 			images[provider.Name()] = hvImages
 		}
-		sshkeys := []*models.SSHKey{}
+		sshkeys := []*domain.SSHKey{}
 		if err := ctx.SSHKeys.List(&sshkeys); err != nil {
 			return fmt.Errorf("failed to fetch ssh keys list: %s", err)
 		}

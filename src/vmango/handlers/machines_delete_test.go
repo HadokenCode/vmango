@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 	"vmango/dal"
-	"vmango/models"
+	"vmango/domain"
 	"vmango/testool"
 
 	"github.com/stretchr/testify/suite"
@@ -73,10 +73,10 @@ func (suite *MachineDeleteHandlerTestSuite) TestDeleteAPIAuthRequired() {
 func (suite *MachineDeleteHandlerTestSuite) TestConfirmationOk() {
 	suite.Authenticate()
 	suite.Repo.GetResponse.Exist = true
-	suite.Repo.GetResponse.Machine = &models.VirtualMachine{
+	suite.Repo.GetResponse.Machine = &domain.VirtualMachine{
 		Id:       "deadbeefdeadbeefdeadbeefdeadbeef",
 		Name:     "test-remove",
-		RootDisk: &models.VirtualMachineDisk{},
+		RootDisk: &domain.VirtualMachineDisk{},
 	}
 	rr := suite.DoGet(DELETE_URL("testhv", "deadbeefdeadbeefdeadbeefdeadbeef"))
 	suite.Equal(200, rr.Code, rr.Body.String())
@@ -101,10 +101,10 @@ func (suite *MachineDeleteHandlerTestSuite) TestConfirmationRepFail() {
 func (suite *MachineDeleteHandlerTestSuite) TestActionOk() {
 	suite.Authenticate()
 	suite.Repo.GetResponse.Exist = true
-	suite.Repo.GetResponse.Machine = &models.VirtualMachine{
+	suite.Repo.GetResponse.Machine = &domain.VirtualMachine{
 		Id:       "deadbeefdeadbeefdeadbeefdeadbeef",
 		Name:     "test-remove",
-		RootDisk: &models.VirtualMachineDisk{},
+		RootDisk: &domain.VirtualMachineDisk{},
 	}
 	rr := suite.DoPost(DELETE_URL("testhv", "deadbeefdeadbeefdeadbeefdeadbeef"), bytes.NewBuffer([]byte(``)))
 	suite.Equal(302, rr.Code, rr.Body.String())
@@ -113,10 +113,10 @@ func (suite *MachineDeleteHandlerTestSuite) TestActionOk() {
 func (suite *MachineDeleteHandlerTestSuite) TestAPIActionOk() {
 	suite.APIAuthenticate("admin", "secret")
 	suite.Repo.GetResponse.Exist = true
-	suite.Repo.GetResponse.Machine = &models.VirtualMachine{
+	suite.Repo.GetResponse.Machine = &domain.VirtualMachine{
 		Id:       "deadbeefdeadbeefdeadbeefdeadbeef",
 		Name:     "test-remove",
-		RootDisk: &models.VirtualMachineDisk{},
+		RootDisk: &domain.VirtualMachineDisk{},
 	}
 	rr := suite.DoDelete(DELETE_API_URL("testhv", "deadbeefdeadbeefdeadbeefdeadbeef"))
 	suite.Equal(204, rr.Code, rr.Body.String())

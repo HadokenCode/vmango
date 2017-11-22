@@ -1,34 +1,34 @@
 package dal
 
 import (
-	"vmango/models"
+	"vmango/domain"
 )
 
 type Machinerep interface {
-	List(*models.VirtualMachineList) error
-	Get(*models.VirtualMachine) (bool, error)
-	Create(*models.VirtualMachine, *models.Image, *models.Plan) error
-	Start(*models.VirtualMachine) error
-	Stop(*models.VirtualMachine) error
-	Remove(*models.VirtualMachine) error
-	Reboot(*models.VirtualMachine) error
+	List(*domain.VirtualMachineList) error
+	Get(*domain.VirtualMachine) (bool, error)
+	Create(*domain.VirtualMachine, *domain.Image, *domain.Plan) error
+	Start(*domain.VirtualMachine) error
+	Stop(*domain.VirtualMachine) error
+	Remove(*domain.VirtualMachine) error
+	Reboot(*domain.VirtualMachine) error
 }
 
 type Imagerep interface {
-	List(*models.ImageList) error
-	Get(*models.Image) (bool, error)
+	List(*domain.ImageList) error
+	Get(*domain.Image) (bool, error)
 }
 
 type Planrep interface {
-	List(*[]*models.Plan) error
-	Get(*models.Plan) (bool, error)
+	List(*[]*domain.Plan) error
+	Get(*domain.Plan) (bool, error)
 }
 
 type SSHKeyrep interface {
-	List(*[]*models.SSHKey) error
-	Get(*models.SSHKey) (bool, error)
+	List(*[]*domain.SSHKey) error
+	Get(*domain.SSHKey) (bool, error)
 }
 
 type Authrep interface {
-	Get(*models.User) (bool, error)
+	Get(*domain.User) (bool, error)
 }
